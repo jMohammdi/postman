@@ -76,12 +76,39 @@ function Header({ params, setParams }) {
       }
     }
   }
+  const setqueryHandler = (evt) => {
+    let rez = []
+    const t = evt.target
+    const inputValue = inpref.current.value
+    if (evt.keyCode === 8) {
+      const deletedChar = t.value[t.selectionStart - 1]
+      if (deletedChar === '&') {
+        setTimeout(() => {
+          const splitValue = inpref.current.value.split('&')
+          splitValue.map((list, index) => {
+            let isequal = /[=]+/.exec(list)
+            if (isequal !== null) {
+              const key = list.slice(0, isequal.index)
+              const value = list.slice(isequal.index + 1)
+              const item = { key, value, description: '', index }
+              rez.push(item)
+            }
+            setParams(rez)
+          })
+        }, 1)
+      }
+    } else if (evt.keyCode === 46) {
+      // for delete key
+      console.log(t.value[t.selectionStart])
+    }
+  }
   return (
     <div>
       <input
         ref={inpref}
-        onKeyUp={(event) => setInputRequsetHandler(event)}
+        onChange={(event) => setInputRequsetHandler(event)}
         style={styles}
+        onKeyDown={(event) => setqueryHandler(event)}
       />
     </div>
   )
