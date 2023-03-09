@@ -11,7 +11,7 @@ function Header({ params, setParams }) {
   const inpref = useRef()
   let paramterStr = ''
   const setInputRequsetHandler = (event) => {
-    const newParams = { id: uuidv4(), key: '', value: '', description: '' }
+    const newParams = { id: uuidv4(), key: 'd', value: '', description: '' }
     const currentValue = inpref.current.value
     const findquery = /[?]+/.exec(currentValue)
 
@@ -20,16 +20,15 @@ function Header({ params, setParams }) {
       const currentQuery = findquery.input
       paramterStr = currentQuery.slice(indexofquery + 1)
 
-      if (params.length === 1) {
-        setParams([...params, newParams])
+      if (params.length === 0) {
+        setParams([newParams, ...params])
       }
 
       splitParamsToTable(paramterStr)
     } else {
-      if (params.length > 1) {
-        const allParams = params.splice(-1, 1)
-        setParams(allParams)
-      }
+      params.splice(0, 1)
+      console.log(params)
+      setParams([...params])
     }
   }
   const splitParamsToTable = (paramsText) => {
@@ -68,12 +67,7 @@ function Header({ params, setParams }) {
         decription: '',
       }
       const allparamsArray = []
-      allparamsArray.push(objparams, {
-        id: uuidv4(),
-        key: '',
-        value: '',
-        description: '',
-      })
+      allparamsArray.push(objparams)
 
       setParams([...allparamsArray])
     }
@@ -96,19 +90,13 @@ function Header({ params, setParams }) {
       if (deletedChar === '&') {
         setTimeout(() => {
           const splitParametrs = paramterStr.split('&')
-          console.log(splitParametrs)
           splitParametrs.map((param, index) => {
             let isEqual = /[=]+/.exec(param)
             if (isEqual !== null) {
               const key = param.slice(0, isEqual.index)
               const value = param.slice(isEqual.index + 1)
               const item = { id: uuidv4(), key, value, description: '' }
-              rez.push(item, {
-                id: uuidv4(),
-                key: '',
-                value: '',
-                description: '',
-              })
+              rez.push(item)
               setParams([...rez])
             }
           })
