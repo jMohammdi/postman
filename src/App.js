@@ -3,7 +3,9 @@ import Body from './components/Body';
 import Header from './components/Header';
 import { v4 as uuidv4 } from 'uuid';
 function App() {
-  const [params, setParams] = useState([]);
+  const [params, setParams] = useState([
+    { id: uuidv4(), key: '', value: '', description: '' },
+  ]);
   useEffect(() => {}, [params]);
   return (
     <>
