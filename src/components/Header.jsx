@@ -54,24 +54,28 @@ function Header({ params, setParams }) {
       setParams([...allparamsClone])
     } else {
       const isAddValue = /[=]+/.exec(allParams)
-      if (isAddValue || allParams.length > 0) {
-        const arrayOfParams = allParams.split('=')
-        let objparams = {
-          id: uuidv4(),
-          key: arrayOfParams[0],
-          value: arrayOfParams[1],
-          decription: '',
-        }
-        const allparamsArray = []
-        allparamsArray.push(objparams, {
-          id: uuidv4(),
-          key: '',
-          value: '',
-          description: '',
-        })
-
-        setParams([...allparamsArray])
+      let query = ''
+      if (isAddValue) {
+        const indexofquery = isAddValue.index
+        const currentQuery = isAddValue.input
+        query = currentQuery.slice(indexofquery + 1)
       }
+      const arrayOfParams = allParams.split('=')
+      let objparams = {
+        id: uuidv4(),
+        key: arrayOfParams[0],
+        value: query ? query : '',
+        decription: '',
+      }
+      const allparamsArray = []
+      allparamsArray.push(objparams, {
+        id: uuidv4(),
+        key: '',
+        value: '',
+        description: '',
+      })
+
+      setParams([...allparamsArray])
     }
   }
   const setqueryHandler = (evt) => {
