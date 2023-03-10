@@ -90,6 +90,7 @@ function Header({ params, setParams }) {
       if (deletedChar === '&') {
         setTimeout(() => {
           const splitParametrs = paramterStr.split('&')
+          console.log(splitParametrs)
           splitParametrs.map((param, index) => {
             let isEqual = /[=]+/.exec(param)
             if (isEqual !== null) {
@@ -97,8 +98,16 @@ function Header({ params, setParams }) {
               const value = param.slice(isEqual.index + 1)
               const item = { id: uuidv4(), key, value, description: '' }
               rez.push(item)
-              setParams([...rez])
+            } else {
+              let newParams = {
+                id: uuidv4(),
+                key: '',
+                value: '',
+                description: '',
+              }
+              rez.push(newParams)
             }
+            setParams([...rez])
           })
         }, 1)
       }
